@@ -36,7 +36,7 @@ ext {
     supportLibVersion = '28.0.0'
     javaVersion = JavaVersion.VERSION_1_7
 
-    GROUP = 'com.tencent.tinker'
+    GROUP = 'com.tinkerpatch.tinker'
     VERSION_NAME = "${VERSION_NAME_PREFIX}${VERSION_NAME_SUFFIX}"
 
     POM_PACKAGING = "pom"
@@ -54,6 +54,6 @@ ext {
     POM_DEVELOPER_NAME="Tencent Wechat, Inc."
 
     BINTRAY_LICENCE= ['BSD 3-Clause']
-    BINTRAY_ORGANIZATION = "tinker"
+    BINTRAY_ORGANIZATION = "simsun"
 
 }
