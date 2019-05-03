@@ -37,7 +37,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -158,6 +157,12 @@ public abstract class TinkerJobIntentService extends Service {
     interface CompatJobEngine {
         IBinder compatGetBinder();
         GenericWorkItem dequeueWork();
+    }
+
+    private static boolean isOEMBlockJobScheduler() {
+        return "vivo".equalsIgnoreCase(Build.MANUFACTURER)
+             || "oppo".equalsIgnoreCase(Build.MANUFACTURER)
+             || "xiaomi".equalsIgnoreCase(Build.MANUFACTURER);
     }
 
     /**
@@ -446,7 +451,7 @@ public abstract class TinkerJobIntentService extends Service {
      * Default empty constructor.
      */
     public TinkerJobIntentService() {
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (!isOEMBlockJobScheduler() && Build.VERSION.SDK_INT >= 26) {
             mCompatQueue = null;
         } else {
             mCompatQueue = new ArrayList<>();
@@ -457,7 +462,7 @@ public abstract class TinkerJobIntentService extends Service {
     public void onCreate() {
         super.onCreate();
         if (DEBUG) Log.d(TAG, "CREATING: " + this);
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (!isOEMBlockJobScheduler() && Build.VERSION.SDK_INT >= 26) {
             mJobImpl = new JobServiceEngineImpl(this);
             mCompatWorkEnqueuer = null;
         } else {
@@ -560,7 +565,7 @@ public abstract class TinkerJobIntentService extends Service {
                                         int jobId) {
         WorkEnqueuer we = sClassWorkEnqueuer.get(cn);
         if (we == null) {
-            if (Build.VERSION.SDK_INT >= 26) {
+            if (!isOEMBlockJobScheduler() && Build.VERSION.SDK_INT >= 26) {
                 if (!hasJobId) {
                     throw new IllegalArgumentException("Can't be here without a job id");
                 }

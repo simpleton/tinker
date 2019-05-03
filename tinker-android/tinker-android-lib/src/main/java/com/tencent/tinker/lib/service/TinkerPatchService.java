@@ -54,8 +54,8 @@ public class TinkerPatchService extends TinkerJobIntentService {
         intent.putExtra(PATCH_PATH_EXTRA, path);
         intent.putExtra(RESULT_CLASS_EXTRA, resultServiceClass.getName());
         try {
-            final int jobId = 0xA9A8A2A3 ^ ("tinker_" + context.getPackageName()).hashCode();
-            TinkerLog.i(TAG, "jobId of tinker patch service is: %s", jobId);
+            final int jobId = 0x79A8A2A3 ^ ("tinker_" + context.getPackageName()).hashCode();
+            TinkerLog.i(TAG, "jobId of tinker patch service is: %x", jobId);
             enqueueWork(context, TinkerPatchService.class, jobId, intent);
         } catch (Throwable thr) {
             TinkerLog.e(TAG, "run patch service fail, exception:" + thr);
